@@ -1,8 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react'
+import styled from 'styled-components'
+
+import TrafficChart from './TrafficChart'
+
+import { useInterval } from '../utils/useInterval'
+import { data, ITrafficData } from '../data'
 
 interface IChartProps {
-  title: string;
+  title: string
 }
 
 const ChartContainerStyles = styled.div`
@@ -14,21 +19,33 @@ const ChartContainerStyles = styled.div`
   flex-direction: column;
   width: 30%;
   height: 400px;
-`;
+`
 const ChartTitleStyles = styled.h2`
+  width: 100%;
   padding: 0;
   font-size: 14px;
   align-self: flex-start;
-`;
+  text-align: center;
+`
 
 const ChartContainer: React.FC<IChartProps> = props => {
-  const { title } = props;
+  const { title } = props
+  const [traffic, setTraffic] = useState<ITrafficData[]>([])
+
+  const fetchData = () => {
+    console.log('on fetch data', new Date())
+    // TODO: use real fetch data API, and update response data with setTraffic Hook
+    setTraffic(data.traffic)
+  }
+
+  useInterval(fetchData, 10 * 1000, true)
+
   return (
     <ChartContainerStyles>
       <ChartTitleStyles>{title}</ChartTitleStyles>
-      {props.children}
+      <TrafficChart data={traffic} />
     </ChartContainerStyles>
-  );
-};
+  )
+}
 
-export default ChartContainer;
+export default ChartContainer
