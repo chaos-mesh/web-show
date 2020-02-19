@@ -52,7 +52,7 @@ const App: React.FC = () => {
                 <Banner />
                 <BodyStyles className="body">
                     <Row>
-                        <TrafficChartContainer title="Ping" />
+                        <TrafficChartContainer title="Ping www.google.com" />
                     </Row>
                 </BodyStyles>
             </AppStyles>

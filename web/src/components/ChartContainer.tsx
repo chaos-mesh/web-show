@@ -35,7 +35,10 @@ const ChartContainer: React.FC<IChartProps> = props => {
   const fetchData = () => {
     console.log('on fetch data', new Date())
     // TODO: use real fetch data API, and update response data with setTraffic Hook
-    setTraffic(data.traffic)
+    fetch("/api/network").then(res => res.json()).then((data) => {
+        setTraffic(data)
+    }).catch(console.log)
+    // setTraffic(data.traffic)
   }
 
   useInterval(fetchData, 10 * 1000, true)

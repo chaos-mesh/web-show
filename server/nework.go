@@ -14,8 +14,8 @@ const (
 )
 
 type PingD struct {
-	Time  int64 `json:"time"`
-	Delay time.Duration `json:"delay"`
+	Time  int64   `json:"time"`
+	Delay float64 `json:"delay"`
 }
 
 func (p *PingD) Key() interface{} {
@@ -26,19 +26,21 @@ func (p *PingD) SetPosition(_ int) {}
 
 func (s *Server) startPing() {
 	ticker := time.NewTicker(10 * time.Second)
+	log.Info("start ping")
 	for {
 		select {
 		case <-ticker.C:
 			pinger, err := ping.NewPinger(GoogleAddress)
 			if err != nil {
 				log.Error(err.Error())
-				s.push(&PingD{Time: time.Now().Unix()})
+				s.push(&PingD{Time: time.Now().UnixNano() / 1e6})
 				continue
 			}
+			pinger.Timeout = 5 * time.Second
 			pinger.Count = 1
 			pinger.Run() // blocks until finished
 			stats := pinger.Statistics()
-			s.push(&PingD{Time: time.Now().Unix(), Delay: stats.AvgRtt})
+			s.push(&PingD{Time: time.Now().UnixNano() / 1e6, Delay: float64(stats.AvgRtt.Microseconds()) / 1000})
 		}
 	}
 }
@@ -57,7 +59,7 @@ func (s *Server) network(w http.ResponseWriter, r *http.Request) {
 	var data []PingD
 
 	for _, p := range s.pingData.All() {
-		pd,ok := p.(*PingD)
+		pd, ok := p.(*PingD)
 		if !ok {
 			continue
 		}

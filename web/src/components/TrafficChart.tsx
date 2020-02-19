@@ -4,6 +4,8 @@ import {
   CartesianGrid,
   ComposedChart,
   ResponsiveContainer,
+  Tooltip,
+  Legend,
   XAxis,
   YAxis
 } from 'recharts';
@@ -30,19 +32,19 @@ const TrafficChart: React.FC<IProps> = props => {
         }}
         data={data}
       >
-        <CartesianGrid vertical={false} />
-        <Line type="monotone" dataKey="delay" stroke="#8884d8" />
+        <CartesianGrid strokeDasharray="3 3" />
 
         <XAxis
           tickLine={false}
           dataKey="time"
           domain = {['auto', 'auto']}
-          tickFormatter = {(unixTime) => moment(unixTime).format('HH:mm Do')}
+          tickFormatter = {(unixTime) => moment(unixTime).format('HH:mm:ss Do')}
           type = 'number'
         />
-        <YAxis
-          label={{ value: 'Delay(ms)', position: 'insideLeft', angle: -90 }}
-        />
+        <YAxis label={{ value: 'Delay(ms)', position: 'insideLeft', angle: -90 }}/>
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="delay" stroke="#8884d8" />
       </ComposedChart>
     </ResponsiveContainer>
   );

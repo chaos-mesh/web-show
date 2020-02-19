@@ -18,12 +18,13 @@ func SetupServer() Server {
 
 	r.PathPrefix("/api/network").HandlerFunc(server.network)
 
-	r.PathPrefix("/").Handler(server.web("/", "/web"))
+	r.PathPrefix("/").Handler(server.web("/", "./web/build"))
 
 	return server
 }
 
 func (s *Server) Run() {
+	go s.startPing()
 	log.Info("Starting Server on 0.0.0.0:8081")
 	err := http.ListenAndServe("0.0.0.0:8081", s.router)
 	if err != nil {
