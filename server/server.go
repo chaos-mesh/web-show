@@ -24,10 +24,10 @@ func SetupServer() Server {
 }
 
 func (s *Server) Run() {
-	log.Info("Starting Server on 0.0.0.0:80")
-	err := http.ListenAndServe("0.0.0.0:80", s.router)
+	log.Info("Starting Server on 0.0.0.0:8081")
+	err := http.ListenAndServe("0.0.0.0:8081", s.router)
 	if err != nil {
-		log.Error("Error while listening 0.0.0.0:80")
+		log.Error("Error while listening 0.0.0.0:8081")
 	}
 }
 

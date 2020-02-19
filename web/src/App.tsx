@@ -7,11 +7,6 @@ import TrafficChart from './components/TrafficChart';
 
 import { data } from './data';
 
-export interface IAppState {
-  selectedPoint: Point;
-  setSelectedPoint: Dispatch<SetStateAction<Point>>;
-}
-
 const theme = {
   colors: [
     '#935B92',
