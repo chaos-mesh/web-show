@@ -1,4 +1,4 @@
-module github.com/cwen0/web-show
+module github.com/chaos-mesh/web-show
 
 go 1.13
 

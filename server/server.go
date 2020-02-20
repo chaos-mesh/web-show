@@ -3,7 +3,7 @@ package server
 import (
 	"net/http"
 
-	"github.com/cwen0/web-show/pkg/queue"
+	"github.com/chaos-mesh/web-show/pkg/queue"
 	"github.com/gorilla/mux"
 	"github.com/pingcap/log"
 )

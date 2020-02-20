@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import TrafficChart from './TrafficChart'
 
 import { useInterval } from '../utils/useInterval'
-import { data, ITrafficData } from '../data'
+import { ITrafficData } from '../data'
 
 interface IChartProps {
   title: string
@@ -17,9 +17,10 @@ const ChartContainerStyles = styled.div`
   margin: 10px 10px 10px 10px;
   display: flex;
   flex-direction: column;
-  width: 30%;
-  height: 400px;
+  width: 46%;
+  height: 600px;
 `
+
 const ChartTitleStyles = styled.h2`
   width: 100%;
   padding: 0;
@@ -38,7 +39,6 @@ const ChartContainer: React.FC<IChartProps> = props => {
     fetch("/api/network").then(res => res.json()).then((data) => {
         setTraffic(data)
     }).catch(console.log)
-    // setTraffic(data.traffic)
   }
 
   useInterval(fetchData, 10 * 1000, true)

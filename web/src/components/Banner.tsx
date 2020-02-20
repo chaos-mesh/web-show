@@ -1,10 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as Logo } from '../icons/sandvine-logo.svg';
-import { ReactComponent as Bell } from '../icons/bell-solid.svg';
-import { ReactComponent as Cog } from '../icons/cog-solid.svg';
-import { ReactComponent as Question } from '../icons/question-circle-solid.svg';
-import { ReactComponent as Bars } from '../icons/bars.svg';
+import logo from '../icons/chaosmesh.png';
 
 interface IBannerSectionProps {
   width: string | number;
@@ -103,36 +99,20 @@ const BannerTitle = styled.div`
   }
 `;
 
+const ImgType = styled.img`
+  margin-left: 50px;
+  height: 50px;
+  width: 200px;
+`;
+
 const Banner = () => {
   return (
     <BannerStyles className="banner">
       <BannerSection className="banner-section banner-section-title">
         <BannerTitle className="banner-title">
-          <Logo className="logo" height="100%" fill="white"></Logo>
+            <ImgType src={logo} alt="Logo" />
           <h1 className="banner-title-text">Web Show</h1>
         </BannerTitle>
-      </BannerSection>
-      <BannerSection className="banner-section banner-section-actions">
-        <IconSection className="icon-section">
-          <div
-            style={{
-              position: 'relative',
-              paddingRight: '20px'
-            }}
-          >
-            <Bell className="bell icon-button no-fill" height="100%"></Bell>
-            <span className="badge">14</span>
-          </div>
-          <Cog className="cog icon-button no-fill" height="100%"></Cog>
-          <Question
-            className="question icon-button no-fill"
-            height="100%"
-          ></Question>
-          <Bars
-            className="bars icon-button icon-button-filled fill"
-            height="100%"
-          ></Bars>
-        </IconSection>
       </BannerSection>
     </BannerStyles>
   );

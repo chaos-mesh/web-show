@@ -41,8 +41,8 @@ const TrafficChart: React.FC<IProps> = props => {
           tickFormatter = {(unixTime) => moment(unixTime).format('HH:mm:ss Do')}
           type = 'number'
         />
-        <YAxis label={{ value: 'Delay(ms)', position: 'insideLeft', angle: -90 }}/>
-        <Tooltip />
+        <YAxis label={{ value: 'Delay', position: 'insideLeft', angle: -90 }} unit={"ms"}/>
+        <Tooltip labelFormatter={t => new Date(t).toLocaleString()} />
         <Legend />
         <Line type="monotone" dataKey="delay" stroke="#8884d8" />
       </ComposedChart>
