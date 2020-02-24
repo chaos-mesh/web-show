@@ -67,12 +67,12 @@ const BannerStyles = styled.div`
   align-content: center;
   height: 75px;
   width: 100%;
-  background: rgb(64, 67, 66);
+  background: (190, 190, 190);
   background: linear-gradient(
     90deg,
-    rgba(64, 67, 66, 1) 0%,
-    rgba(83, 84, 85, 1) 50%,
-    rgba(99, 100, 100, 1) 100%
+    rgba(164, 167, 66, 1) 0%,
+    rgba(183, 184, 85, 1) 50%,
+    rgba(199, 100, 100, 1) 100%
   );
 `;
 

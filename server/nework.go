@@ -9,10 +9,6 @@ import (
 	"github.com/unrolled/render"
 )
 
-const (
-	GoogleAddress = "www.google.com"
-)
-
 type PingD struct {
 	Time  int64   `json:"time"`
 	Delay float64 `json:"delay"`
@@ -30,12 +26,13 @@ func (s *Server) startPing() {
 	for {
 		select {
 		case <-ticker.C:
-			pinger, err := ping.NewPinger(GoogleAddress)
+			pinger, err := ping.NewPinger(s.conf.TargetIP)
 			if err != nil {
 				log.Error(err.Error())
 				s.push(&PingD{Time: time.Now().UnixNano() / 1e6})
 				continue
 			}
+			pinger.SetPrivileged(true)
 			pinger.Timeout = 5 * time.Second
 			pinger.Count = 1
 			pinger.Run() // blocks until finished

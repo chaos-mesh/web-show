@@ -52,7 +52,7 @@ const App: React.FC = () => {
                 <Banner />
                 <BodyStyles className="body">
                     <Row>
-                        <TrafficChartContainer title="Ping www.google.com" />
+                        <TrafficChartContainer title="Ping kube-system Pod" />
                     </Row>
                 </BodyStyles>
             </AppStyles>
