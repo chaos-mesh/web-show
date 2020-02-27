@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react'
 const noop = () => {} // keep typescript happy
 export const useInterval = (
   callback: () => void,
-  delay: number | null,
+  latency: number | null,
   immediate?: boolean // called when mounted if true
 ) => {
   const savedCallback = useRef(noop)
@@ -24,10 +24,10 @@ export const useInterval = (
 
   // Set up the interval.
   useEffect(() => {
-    if (delay === null) return undefined
+    if (latency === null) return undefined
 
     const tick = () => savedCallback.current()
-    const id = setInterval(tick, delay)
+    const id = setInterval(tick, latency)
     return () => clearInterval(id)
-  }, [delay])
+  }, [latency])
 }

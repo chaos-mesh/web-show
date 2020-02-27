@@ -67,12 +67,12 @@ const BannerStyles = styled.div`
   align-content: center;
   height: 75px;
   width: 100%;
-  background: (190, 190, 190);
+  background: (187, 255, 255);
   background: linear-gradient(
     90deg,
-    rgba(164, 167, 66, 1) 0%,
-    rgba(183, 184, 85, 1) 50%,
-    rgba(199, 100, 100, 1) 100%
+    rgba(174, 248, 238, 1) 0%,
+    rgba(174, 238, 255, 1) 50%,
+    rgba(174, 238, 255, 1) 100%
   );
 `;
 
@@ -89,7 +89,7 @@ const BannerTitle = styled.div`
   margin-left: 20px;
   h1 {
     font-size: 14px;
-    color: white;
+    color: (106, 90, 205);
     font-weight: 400;
     margin: 0;
     padding: 0;

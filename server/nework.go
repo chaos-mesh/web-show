@@ -11,7 +11,7 @@ import (
 
 type PingD struct {
 	Time  int64   `json:"time"`
-	Delay float64 `json:"delay"`
+	Latency float64 `json:"latency"`
 }
 
 func (p *PingD) Key() interface{} {
@@ -37,7 +37,7 @@ func (s *Server) startPing() {
 			pinger.Count = 1
 			pinger.Run() // blocks until finished
 			stats := pinger.Statistics()
-			s.push(&PingD{Time: time.Now().UnixNano() / 1e6, Delay: float64(stats.AvgRtt.Microseconds()) / 1000})
+			s.push(&PingD{Time: time.Now().UnixNano() / 1e6, Latency: float64(stats.AvgRtt.Microseconds()) / 1000})
 		}
 	}
 }
