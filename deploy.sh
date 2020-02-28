@@ -10,3 +10,8 @@ mv deploy/deployment.yamlg deploy/deployment.yaml
 
 kubectl apply -f deploy/
 
+while [[ $(kubectl get pods -l app=web-show -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod running" && sleep 1; done
+
+kill $(lsof -t -i:8081)
+
+nohup kubectl port-forward svc/web-show 8081:8081 2>&1 &
