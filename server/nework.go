@@ -21,7 +21,7 @@ func (p *PingD) Key() interface{} {
 func (p *PingD) SetPosition(_ int) {}
 
 func (s *Server) startPing() {
-	ticker := time.NewTicker(10 * time.Second)
+	ticker := time.NewTicker(1 * time.Second)
 	log.Info("start ping")
 	for {
 		select {
@@ -33,7 +33,7 @@ func (s *Server) startPing() {
 				continue
 			}
 			pinger.SetPrivileged(true)
-			pinger.Timeout = 5 * time.Second
+			pinger.Timeout = 1 * time.Second
 			pinger.Count = 1
 			pinger.Run() // blocks until finished
 			stats := pinger.Statistics()

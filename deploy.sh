@@ -14,4 +14,4 @@ while [[ $(kubectl get pods -l app=web-show -o 'jsonpath={..status.conditions[?(
 
 kill $(lsof -t -i:8081) 2>&1 >/dev/null | True
 
-nohup kubectl port-forward svc/web-show 8081:8081 2>&1 &
+nohup kubectl port-forward svc/web-show --address 0.0.0.0 8081:8081 2>&1 &

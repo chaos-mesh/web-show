@@ -20,7 +20,7 @@ func SetupServer(conf *Config) Server {
 
 	server := Server{
 		router:   r,
-		pingData: queue.NewListQueue(200),
+		pingData: queue.NewListQueue(360),
 		conf:     conf,
 	}
 
