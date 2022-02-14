@@ -1,19 +1,22 @@
-apiVersion: pingcap.com/v1alpha1
-kind: NetworkChaos
+apiVersion: chaos-mesh.org/v1alpha1
+kind: Schedule
 metadata:
-  name: network-delay-example
+  name: schedule-delay-example
 spec:
-  action: delay
-  mode: one
-  selector:
-    namespaces:
-      - default
-    labelSelectors:
-      "app": "web-show"
-  delay:
-    latency: "10ms"
-    correlation: "100"
-    jitter: "0ms"
-  duration: "30s"
-  scheduler:
-    cron: "@every 60s"
+  schedule: '*/1 * * * *'
+  historyLimit: 2
+  concurrencyPolicy: 'Allow'
+  type: 'NetworkChaos'
+  networkChaos:
+    action: delay
+    mode: one
+    selector:
+      namespaces:
+        - default
+      labelSelectors:
+        'app': 'web-show'
+    delay:
+      latency: '10ms'
+      correlation: '100'
+      jitter: '0ms'
+    duration: '30s'
