@@ -1,5 +1,6 @@
 # SET DOCKER_REGISTRY to change the docker registry
-DOCKER_REGISTRY_PREFIX := $(if $(DOCKER_REGISTRY),$(DOCKER_REGISTRY)/,)
+DOCKER_REGISTRY_PREFIX := $(if $(DOCKER_REGISTRY),$(DOCKER_REGISTRY)/,ghcr.io/)
+IMAGE_TAG := $(if $(IMAGE_TAG),$(IMAGE_TAG),"latest")
 
 # Enable GO111MODULE=on explicitly, disable it with GO111MODULE=off when necessary.
 export GO111MODULE := on
@@ -16,10 +17,10 @@ build:
 	cd web; npm install; npm run build
 
 image:
-	docker build -t ${DOCKER_REGISTRY_PREFIX}pingcap/web-show .
+	docker build -t ${DOCKER_REGISTRY_PREFIX}chaos-mesh/web-show:${IMAGE_TAG} .
 
 image-push:
-	docker push  "${DOCKER_REGISTRY_PREFIX}pingcap/web-show:latest"
+	docker push  "${DOCKER_REGISTRY_PREFIX}chaos-mesh/web-show:latest"
 
 
 .PYTHON: build
