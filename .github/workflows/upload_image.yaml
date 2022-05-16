@@ -1,0 +1,84 @@
+name: Upload Image
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-specific-architecture:
+    strategy:
+      matrix:
+        arch: [amd64, arm64]
+    runs-on: ${{ fromJson('{"amd64":"ubuntu-latest", "arm64":["self-hosted", "Linux", "ARM64"]}')[matrix.arch] }}
+    steps:
+      - name: checkout codes
+        uses: actions/checkout@v2
+      
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '^1.18.1'
+
+      - name: install dependencies
+        run: |
+          sudo apt update -y
+          sudo apt install g++ build-essential python3 -y
+
+      - name: build web-show images
+        env:
+          ARCH: ${{ matrix.arch }}
+        run: |
+          make build
+          IMAGE_TAG=latest-$ARCH make image
+
+      - name: log in to GitHub Docker Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: upload web-show
+        env:
+          ARCH: ${{ matrix.arch }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+        run: |
+          # ${VAR,,} convert VAR to lower case
+          docker push ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/web-show:latest-$ARCH
+  
+
+  upload-manifest:
+    runs-on: ubuntu-latest
+    needs: build-specific-architecture
+    steps:
+    - name: build manifest
+      env:
+        GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+      run: |
+        # ${VAR,,} convert VAR to lower case
+        docker manifest create ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/web-show:latest \
+          ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/web-show:latest-amd64 \
+          ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/web-show:latest-arm64
+
+        docker manifest annotate ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/web-show:latest \
+          ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/web-show:latest-amd64 \
+          --os linux --arch amd64
+        docker manifest annotate ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/web-show:latest \
+          ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/web-show:latest-arm64 \
+          --os linux --arch arm64
+
+    - name: Log in to GitHub Docker Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload Chaos Mesh
+      env:
+        GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+      run: |
+        # ${VAR,,} convert VAR to lower case
+        docker manifest push ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/web-show:latest
